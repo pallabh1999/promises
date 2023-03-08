@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promises</title>
+</head>
+<body>
+    <h1>promises</h1>
+    <p>promises are meant to be broken</p>
+</body>
+<script>
+    // Sample array of posts
+const posts = [{title: 'POST1', createdAt: new Date()}, {title: 'POST2', createdAt: new Date()}];
+
+// Function to update last user activity time
+function updateLastUserActivityTime() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const lastActivityTime = new Date();
+      resolve(lastActivityTime);
+    }, 1000);
+  });
+}
+
+// Function to create a new post
+function createPost(title) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const newPost = {title: title, createdAt: new Date()};
+      posts.push(newPost);
+      resolve(newPost);
+    }, 1000);
+  });
+}
+
+// Function to delete the last post
+function deleteLastPost() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (posts.length > 0) {
+        const deletedPost = posts.pop();
+        resolve(deletedPost);
+      } else {
+        reject('ERROR: ARRAY IS EMPTY');
+      }
+    }, 1000);
+  });
+}
+
+// Call createPost and updateLastUserActivityTime, and log posts and lastActivityTime once both promises resolve
+createPost('POST3')
+  .then((newPost) => {
+    console.log('New Post:', newPost);
+    return updateLastUserActivityTime();
+  })
+  .then((lastActivityTime) => {
+    console.log('Last Activity Time:', lastActivityTime);
+    console.log('All Posts:', posts);
+    return deleteLastPost();
+  })
+  .then((deletedPost) => {
+    console.log('Deleted Post:', deletedPost);
+    console.log('New Posts:', posts);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+</script>
+</html>
