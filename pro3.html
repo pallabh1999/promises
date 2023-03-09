@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVERSION OF CONTROL</title>
+</head>
+<body>
+    <h1>promises</h1>
+    <p>the promise</p>
+</body>
+<script>
+//     call backs
+    const cart = ['dress','knife','blades','sprays'];
+    // every ecommerce website has a cart which we created above ...along with the cart we have two more apis
+    // 1st one will be create order api.this api will create an order id for us
+    // 2nd one will be proceed to payment.this api will take the order id and procced to payment
+// so this two ids are asynx we dont know how much time it will take.and they are dependent on each other we can only do proceed to payment once we have created the order.
+// so with the use of callback we handle this type of situation.so we wrap this function inside a callback function
+
+    createOrder(cart, function(orderId)
+{
+   ProceedToPayment(orderId);
+});
+
+
+// so we will wrap this ProceedToPayment inside a function and design our apis in such a way that we can pass this callback function inside the create order API
+// function()
+// {
+//    ProceedToPayment(orderId);
+// }
+// so now it is the responsibility of create order API to create an order first of all and then will call the callback function back once the order is created with the order id....this is how we use asynx operations using call backs but there is an issue and that issue is inversion of control.
+// inversion of control is completely giving control to create order api and relaxing .how can we know that it is passing all the function.it may not pass also.
+
+const promise = createOrder(cart);
+// now we will attach a callback function to this call back function .
+// we can do that by using a function ".then",this is a function which is available over promise object.
+// then we will pass the callback function that we usd to pass in earlier and we will attach it to our promise object.
+promise.then(function(orderId)
+{
+   ProceedToPayment(orderId);
+})
+// in this case we are attaching a callback function to a promise object and this is the difference from the above situation.before we were not having control over our program when we were passing it inside one another.but by using promise js gives us guarentee that it will get executed AND it will get executed once only.
+const GITHUB_API = "https://github.com/pallabh1999"
+const user = fetch(GITHUB_API);
+// fetch functio return us a promise.
+console.log(user);
+user.then(function(data){
+    console.log(data);
+})
+// so this got rejected there are three states inside promise .once can be pending.one can be fulfilled and one will be rejected.this is how romise object looks like in javascript.
+// promises are immutable.
+ 
+</script>
+</html>
